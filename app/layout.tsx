@@ -3,7 +3,10 @@ import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import Nav from "./components/Nav";
 
-const dm_sans = DM_Sans({ subsets: ["latin"]});
+const dm_sans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
 
 export const metadata: Metadata = {
   title: "PubView",
@@ -17,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={dm_sans.className}>
+      <body data-theme="cmyk" className={dm_sans.className}>
         <Nav />
         {children}
       </body>
