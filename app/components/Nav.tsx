@@ -13,7 +13,6 @@ const Nav = () => {
         <div className="flex w-full mr-24">
           <Link href="/" className="mx-5">Home</Link>
           <Link href="/demo" className="mx-5">Demo</Link>
-          <Link href="/about" className="mx-5">About</Link>
           <Link href="/pricing" className="mx-5">Pricing</Link>
         </div>
 
