@@ -1,3 +1,5 @@
+import { extractCitationStatistics, extractPublications } from "@/lib/cleanjson";
+
 export async function GET() {
     try {
         // Await the fetch response
@@ -8,12 +10,15 @@ export async function GET() {
             throw new Error(`HTTP error! Status: ${res.status}`);
         }
 
-        // Convert the response to JSON
         let data = await res.json();
 
-        // Return the JSON data
-        return new Response(JSON.stringify(data), {
-            headers: { 'Content-Type': 'application/json' },
+        const citationStats = extractCitationStatistics(data);
+    
+        const publications = extractPublications(data);
+    
+        // Return the extracted citation stats as JSON response
+        return new Response(JSON.stringify({ citationStats, publications }), {
+          headers: { "Content-Type": "application/json" },
         });
     } catch (error) {
         // Handle any errors that occurred during fetch
