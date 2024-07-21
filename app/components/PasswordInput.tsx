@@ -14,7 +14,7 @@ const PasswordInput: React.FC<PassWordInputProps> = ({
   toggleShowPassword,
 }) => {
   return (
-    <div>
+    <>
       <label className="input input-bordered flex items-center gap-2 relative">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +54,7 @@ const PasswordInput: React.FC<PassWordInputProps> = ({
           </svg>
         </button>
       </label>
-    </div>
+    </>
   );
 };
 

@@ -1,24 +1,33 @@
 "use client";
 import React from "react";
-import styles from "./Login.module.css";
 import Link from "next/link";
 import { useState } from "react";
 import GoogleButton from "@/app/components/GoogleButton";
 import PasswordInput from "@/app/components/PasswordInput";
 import EmailInput from "@/app/components/EmailInput";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import {auth} from "@/lib/firebase/firebase"
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleLoginButton = () => {
-    console.log("hello");
-  };
-
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
+    try {
+      e.preventDefault
+      const res = await signInWithEmailAndPassword(auth, email, password)
+      setEmail("")
+      setPassword("")
+      console.log('success')
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div className="flex flex-col items-center">
@@ -33,7 +42,7 @@ const Login = () => {
         toggleShowPassword={togglePasswordVisibility}
       />
 
-      <button className="btn btn-neutral" onClick={handleLoginButton}>
+      <button className="btn btn-neutral" onClick={(e) => handleSubmit(e)}>
         Login
       </button>
       <div className="divider">Or</div>

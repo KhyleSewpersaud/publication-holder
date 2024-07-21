@@ -25,7 +25,7 @@ export async function GET() {
         console.error('Error fetching data:', error);
 
         // Return an error response
-        return new Response(JSON.stringify({ error: error.message }), {
+        return new Response(JSON.stringify({ error }), {
             headers: { 'Content-Type': 'application/json' },
         });
     }

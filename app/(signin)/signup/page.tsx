@@ -5,8 +5,8 @@ import EmailInput from "@/app/components/EmailInput";
 import Link from "next/link";
 import React from "react";
 import { useState } from "react";
-import { auth } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/lib/firebase/firebase";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -15,32 +15,15 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const handleSignupButton = async () => {
-    if (password === confirmPassword) {
-      try {
-        await createUserWithEmailAndPassword(auth, email, password);
-        alert("User created successfully!");
-      } 
-      catch (error) {
-        let errorMessage;
-        switch (error.code) {
-          case "auth/invalid-email":
-            errorMessage = "Invalid email address.";
-            break;
-          case "auth/email-already-in-use":
-            errorMessage = "Email already in use.";
-            break;
-          case "auth/weak-password":
-            errorMessage = "Password should be at least 6 characters.";
-            break;
-          default:
-            errorMessage = "An error occurred. Please try again.";
-            break;
-        }
-        alert(errorMessage);
-      }
-    } else {
-      alert("Passwords do not match");
+  const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
+    try {
+      e.preventDefault;
+      const res = await createUserWithEmailAndPassword(auth, email, password);
+      setEmail("")
+      setPassword("")
+      setConfirmPassword("")
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -72,9 +55,14 @@ const SignUp = () => {
         toggleShowPassword={toggleConfirmPasswordVisibility}
       />
 
-      <button className="btn btn-neutral" onClick={handleSignupButton}>
-        Sign Up
-      </button>
+      <div className="flex justify-center">
+        <button
+          className="btn btn-neutral"
+          onClick={(e) => handleSubmit(e)}
+        >
+          Sign Up
+        </button>
+      </div>
 
       <div className="divider">Or</div>
 
