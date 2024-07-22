@@ -5,8 +5,12 @@ import { useState } from "react";
 import GoogleButton from "@/app/components/GoogleButton";
 import PasswordInput from "@/app/components/PasswordInput";
 import EmailInput from "@/app/components/EmailInput";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import {auth} from "@/lib/firebase/firebase"
+import {
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+import { auth } from "@/lib/firebase/firebase";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -18,16 +22,27 @@ const Login = () => {
   };
 
   const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
-    try {
-      e.preventDefault
-      const res = await signInWithEmailAndPassword(auth, email, password)
-      setEmail("")
-      setPassword("")
-      console.log('success')
-    } catch (error) {
-      console.log(error)
-    }
-  }
+    e.preventDefault;
+    await signInWithEmailAndPassword(auth, email, password)
+      .then(async (userCred) => {
+        const user = userCred.user;
+        setEmail("");
+        setPassword("");
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode);
+        console.log(errorMessage);
+      });
+  };
+
+  const handleGoogle = async (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault;
+    const provider = await new GoogleAuthProvider();
+    return signInWithPopup(auth, provider);
+  };
 
   return (
     <div className="flex flex-col items-center">
@@ -47,9 +62,10 @@ const Login = () => {
       </button>
       <div className="divider">Or</div>
 
-      <GoogleButton text="Login With Google" />
+      <GoogleButton text="Login With Google" onClick={handleGoogle} />
 
       <Link href="/signup">No Account? Sign Up</Link>
+      <Link href="/login/forgot">Forgot Password?</Link>
     </div>
   );
 };

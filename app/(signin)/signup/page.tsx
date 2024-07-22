@@ -5,7 +5,12 @@ import EmailInput from "@/app/components/EmailInput";
 import Link from "next/link";
 import React from "react";
 import { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  sendEmailVerification,
+  signInWithPopup,
+} from "firebase/auth";
 import { auth } from "@/lib/firebase/firebase";
 
 const SignUp = () => {
@@ -16,15 +21,28 @@ const SignUp = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
-    try {
-      e.preventDefault;
-      const res = await createUserWithEmailAndPassword(auth, email, password);
-      setEmail("")
-      setPassword("")
-      setConfirmPassword("")
-    } catch (error) {
-      console.log(error);
-    }
+    e.preventDefault;
+    await createUserWithEmailAndPassword(auth, email, password).then(
+      async (userCred) => {
+        const user = userCred.user;
+        await sendEmailVerification(user);
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+      }
+    )
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode)
+      console.log(errorMessage)
+    });
+  };
+
+  const handleGoogle = async (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault;
+    const provider = await new GoogleAuthProvider();
+    return signInWithPopup(auth, provider);
   };
 
   const togglePasswordVisibility = () => {
@@ -56,17 +74,14 @@ const SignUp = () => {
       />
 
       <div className="flex justify-center">
-        <button
-          className="btn btn-neutral"
-          onClick={(e) => handleSubmit(e)}
-        >
+        <button className="btn btn-neutral" onClick={(e) => handleSubmit(e)}>
           Sign Up
         </button>
       </div>
 
       <div className="divider">Or</div>
 
-      <GoogleButton text="Sign In With Google" />
+      <GoogleButton text="Sign In With Google" onClick={handleGoogle}/>
 
       <Link href="/login">Already Have An Account? Login</Link>
     </div>

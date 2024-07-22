@@ -2,12 +2,13 @@ import React from "react";
 import styles from "./GoogleButton.module.css";
 
 interface GoogleButtonProps {
-    text: string;
+  text: string;
+  onClick: (e: React.MouseEvent<HTMLElement>) => void;
 }
 
-const GoogleButton: React.FC<GoogleButtonProps> = ({ text }) => {
+const GoogleButton: React.FC<GoogleButtonProps> = ({ text, onClick }) => {
   return (
-    <button className={styles.gsiMaterialButton}>
+    <button className={styles.gsiMaterialButton} onClick={(e) => onClick(e)}>
       <div className={styles.gsiMaterialButtonState}></div>
       <div className={styles.gsiMaterialButtonContentWrapper}>
         <div className={styles.gsiMaterialButtonIcon}>
