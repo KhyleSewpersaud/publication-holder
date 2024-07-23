@@ -3,14 +3,9 @@ import React from "react";
 import Link from "next/link";
 import { useState } from "react";
 import GoogleButton from "@/app/components/GoogleButton";
-import PasswordInput from "@/app/components/PasswordInput";
-import EmailInput from "@/app/components/EmailInput";
-import {
-  signInWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
-} from "firebase/auth";
-import { auth } from "@/lib/firebase/firebase";
+import PasswordInput from "@/app/components/textinputs/PasswordInput";
+import EmailInput from "@/app/components/textinputs/EmailInput";
+import { handleLoginSubmit, googleLogin } from "@/lib/authSubmit";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -19,29 +14,6 @@ const Login = () => {
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
-  };
-
-  const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault;
-    await signInWithEmailAndPassword(auth, email, password)
-      .then(async (userCred) => {
-        const user = userCred.user;
-        setEmail("");
-        setPassword("");
-        console.log(user);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode);
-        console.log(errorMessage);
-      });
-  };
-
-  const handleGoogle = async (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault;
-    const provider = await new GoogleAuthProvider();
-    return signInWithPopup(auth, provider);
   };
 
   return (
@@ -57,12 +29,17 @@ const Login = () => {
         toggleShowPassword={togglePasswordVisibility}
       />
 
-      <button className="btn btn-neutral" onClick={(e) => handleSubmit(e)}>
+      <button
+        className="btn btn-neutral"
+        onClick={(e) =>
+          handleLoginSubmit(email, password, setEmail, setPassword, e)
+        }
+      >
         Login
       </button>
       <div className="divider">Or</div>
 
-      <GoogleButton text="Login With Google" onClick={handleGoogle} />
+      <GoogleButton text="Login With Google" onClick={(e) => {googleLogin(e)}} />
 
       <Link href="/signup">No Account? Sign Up</Link>
       <Link href="/login/forgot">Forgot Password?</Link>

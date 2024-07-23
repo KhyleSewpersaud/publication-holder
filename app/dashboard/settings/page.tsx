@@ -9,7 +9,6 @@ const Settings = () => {
   const handleSignout = async (e: React.MouseEvent<HTMLElement>) => {
     await signOut(auth)
       .then(() => {
-        console.log("signed out");
         router.push("/");
       })
       .catch((error) => {
