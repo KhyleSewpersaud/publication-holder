@@ -6,7 +6,9 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signOut,
 } from "firebase/auth";
+import { useRouter } from "next/navigation";
 
 export async function handleLoginSubmit(
   email: string,
@@ -82,4 +84,22 @@ export async function resetPassword(
       console.log(errorCode);
       console.log(errorMessage);
     });
+}
+
+export function HandleSignout() {
+  const router = useRouter();
+
+  const signoutPress = async () => {
+    await signOut(auth)
+      .then(() => {
+        router.push("/");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode);
+        console.log(errorMessage);
+      });
+  };
+  return { signoutPress };
 }

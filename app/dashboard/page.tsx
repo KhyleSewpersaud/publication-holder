@@ -6,9 +6,16 @@ import Link from "next/link";
 
 const Dashboard = () => {
   return (
-    <div>
-      <MakeWidget />
-      <Link href="dashboard/settings">Go to User Settings</Link>
+    <div className="flex flex-col justify-center">
+      <div className="flex justify-center mt-5 mb-16">
+        <Link href="dashboard/settings" className="btn">
+          Go to User Settings
+        </Link>
+      </div>
+
+      <div className="">
+        <MakeWidget />
+      </div>
     </div>
   );
 };

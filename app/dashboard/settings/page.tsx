@@ -1,27 +1,34 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { HandleSignout } from "@/lib/authSubmit";
 import { auth } from "@/lib/firebase/firebase";
-import { signOut } from "firebase/auth";
-import { useRouter } from "next/navigation";
+import { onAuthStateChanged } from "firebase/auth";
+import EmailAcc from "@/app/components/dashsettings/emailAcc";
+import GoogleAcc from "@/app/components/dashsettings/googleAcc";
 
 const Settings = () => {
-  const router = useRouter();
-  const handleSignout = async (e: React.MouseEvent<HTMLElement>) => {
-    await signOut(auth)
-      .then(() => {
-        router.push("/");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode);
-        console.log(errorMessage);
-      });
-  };
+  const [accountType, setAccountType] = useState("");
+  const {signoutPress} = HandleSignout()
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      setAccountType(
+        user?.providerData[0].providerId === "google.com" ? "google" : "email"
+      );
+    });
+  }, []);
 
   return (
-    <div>
-      <button onClick={(e) => handleSignout(e)}>Sign out</button>
+    <div className="flex justify-center items-center">
+      <div className="flex flex-col bg-gray-200 w-1/2 rounded-lg p-20">
+        {accountType === "email" && <EmailAcc />}
+        {accountType === "google" && <GoogleAcc />}
+        <div className="flex justify-center">
+          <button onClick={signoutPress} className="btn btn-neutral">
+            Sign out
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
