@@ -16,7 +16,7 @@ const Forgot = () => {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <button className="btn" onClick={(e) => resetPassword(email, setEmail, e)}>
+      <button className="btn" onClick={(e) => resetPassword(email, setEmail)}>
         Send Reset Password Link
       </button>
       <Link href="/login">Login</Link>

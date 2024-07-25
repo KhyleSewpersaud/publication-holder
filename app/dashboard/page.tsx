@@ -8,7 +8,7 @@ const Dashboard = () => {
   return (
     <div className="flex flex-col justify-center">
       <div className="flex justify-center mt-5 mb-16">
-        <Link href="dashboard/settings" className="btn">
+        <Link href="dashboard/settings" className="btn btn-neutral">
           Go to User Settings
         </Link>
       </div>

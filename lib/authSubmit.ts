@@ -98,7 +98,6 @@ export async function googleLogin(e: React.MouseEvent<HTMLElement>) {
 export async function resetPassword(
   email: string,
   setEmail: React.Dispatch<React.SetStateAction<string>>,
-  e: React.MouseEvent<HTMLElement>
 ) {
   sendPasswordResetEmail(auth, email)
     .then(() => {
@@ -129,3 +128,4 @@ export function HandleSignout() {
   };
   return { signoutPress };
 }
+
