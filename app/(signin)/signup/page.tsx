@@ -13,7 +13,7 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+  const [errorCode, setErrorCode] = useState("")
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -43,28 +43,32 @@ const SignUp = () => {
         toggleShowPassword={toggleConfirmPasswordVisibility}
       />
 
-      <div className="flex justify-center">
-        <button
-          className="btn btn-neutral"
-          onClick={(e) =>
-            handleSignupSubmit(
-              email,
-              password,
-              confirmPassword,
-              setEmail,
-              setPassword,
-              setConfirmPassword,
-              e
-            )
-          }
-        >
-          Sign Up
-        </button>
-      </div>
+      <p>{errorCode}</p>
+
+      <button
+        className="btn btn-neutral"
+        onClick={(e) =>
+          handleSignupSubmit(
+            email,
+            password,
+            confirmPassword,
+            setEmail,
+            setPassword,
+            setConfirmPassword,
+            e,
+            setErrorCode
+          )
+        }
+      >
+        Sign Up
+      </button>
 
       <div className="divider">Or</div>
 
-      <GoogleButton text="Sign In With Google" onClick={(e) => googleLogin(e)} />
+      <GoogleButton
+        text="Sign In With Google"
+        onClick={(e) => googleLogin(e)}
+      />
 
       <Link href="/login">Already Have An Account? Login</Link>
     </div>

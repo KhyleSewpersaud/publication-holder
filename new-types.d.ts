@@ -45,3 +45,13 @@ interface CitedBy {
     serpapiLink: string;
     citesId: string;
 }
+
+type FirebaseAuthErrorCode = 
+  | "auth/email-already-in-use"
+  | "auth/invalid-email"
+  | "auth/operation-not-allowed"
+  | "auth/weak-password"
+  | "auth/user-disabled"
+  | "auth/user-not-found"
+  | "auth/wrong-password"
+  | "auth/invalid-credential";
