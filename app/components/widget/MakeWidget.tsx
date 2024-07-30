@@ -10,7 +10,7 @@ const MakeWidget = () => {
       <div className="flex justify-around w-1/2 bg-base-200 rounded-lg p-5">
         <div className="flex flex-col items-center">
           <h3 className="text-2xl font-bold">Total Citations</h3>
-          <p className="text-lg">100</p>
+          <p className="text-lg">101</p>
         </div>
         <div className="flex flex-col items-center">
           <h3 className="text-2xl font-bold">h-index</h3>
